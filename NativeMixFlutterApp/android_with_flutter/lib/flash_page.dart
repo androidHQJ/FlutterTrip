@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+import 'package:android_with_flutter/model/user.dart';
+import 'package:android_with_flutter/redux/main_redux.dart';
+import 'package:android_with_flutter/redux/user_reducer.dart';
+import 'package:android_with_flutter/utils/const.dart';
+import 'package:android_with_flutter/utils/sp.dart';
+
+class FlashPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _FlashPageState();
+  }
+}
+
+class _FlashPageState extends State<FlashPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 4)).whenComplete(() {
+      Navigator.pushReplacementNamed(context, 'main');
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    initData();
+  }
+
+  void initData() {
+    int userID;
+    String userName;
+    Store<MainRedux> store = StoreProvider.of(context);
+    SpManager.singleton.getInt(Const.ID).then((id) {
+      userID = id;
+    }).whenComplete(() {
+      SpManager.singleton.getString(Const.USERNAME).then((name) {
+        userName = name;
+        if (userID != null &&
+            userID > 0 &&
+            userName != null &&
+            userName.isNotEmpty) {
+          store.dispatch(UpdateUserAction(User(userID, userName)));
+        }
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      "assets/flash.jpg",
+      fit: BoxFit.fill,
+    );
+  }
+}
