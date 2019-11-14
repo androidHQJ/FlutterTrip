@@ -11,7 +11,7 @@ class FadeAppTest extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyFadeTest(title: 'Fade Demo'),
+      home: new MyFadeTest(title: 'FadeAnimation Demo'),
     );
   }
 }

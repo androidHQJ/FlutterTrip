@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:helloflutter/demo/FadeAnimationDemo.dart';
 import 'package:helloflutter/plugin/_MyTestPlugin.dart';
 
-void main() => runApp(FirstPlugin());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
