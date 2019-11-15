@@ -1,3 +1,6 @@
+/**
+ * 函数
+ */
 main(){
 //可选命名参数函数调用
   enable1Flags(bold: true, hidden: false); //true, false
