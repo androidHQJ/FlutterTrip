@@ -45,7 +45,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   int _counter = 0;
 
   void _incrementCounter() {
@@ -59,38 +59,64 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _MyHomePageState():super() {
+    print("Constructor");
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    print("initState");
+    WidgetsBinding.instance.addObserver(this);//注册监听器
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      print("单次Frame绘制回调");//只回调一次
+    });
+
+    WidgetsBinding.instance.addPersistentFrameCallback((_){
+      print("实时Frame绘制回调");//每帧都回调
+    });
+  }
+
+  ///resumed：可见的，并能响应用户的输入。
+  ///inactive：处在不活动状态，无法处理用户响应。
+  ///paused：不可见并不能响应用户的输入，但是在后台继续活动中。
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    print("$state");
+    if (state == AppLifecycleState.resumed) {
+      //do sth
+    }else if(state == AppLifecycleState.paused){
+
+    }else if(state == AppLifecycleState.inactive){
+
+    }
+  }
+  @override
+  void setState(fn) {
+    super.setState(fn);
+    print("setState $fn");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("didChangeDependencies");
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    print("build");
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -109,5 +135,24 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  @override
+  void didUpdateWidget(MyHomePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
+    WidgetsBinding.instance.removeObserver(this);//移除监听器
   }
 }
