@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'Page2.dart';
 
+///Button都是由RawMaterialButton承载视觉，
+/// Image都是RawImage，Text是RichText。它们都继承自RenderObjectWidget，
+/// 而RenderObjectWidget的父类就是Widget。
+
+/// fontSize要怎么设置, 才能让字体大小不随系统字体大小改变而改变.?
+/// 试试Text的textScaleFactor属性
+
+
 class Page1 extends StatefulWidget {
   Page1({Key key}) : super(key: key);
 
